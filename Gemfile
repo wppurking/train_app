@@ -8,6 +8,8 @@ gem 'rails', '3.2.8'
 
 gem 'jquery-rails'
 gem 'slim', '1.3.0'
+# 这个需要测试, 如果在 application.rb 替换了默认模板,删除这个 gem 无效的话则重新添加回来
+gem 'slim-rails'
 gem 'twitter-bootstrap-rails', '2.1.3'
 
 group :production do

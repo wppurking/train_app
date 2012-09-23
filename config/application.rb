@@ -58,5 +58,11 @@ module TrainApp
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # 设置自己的 template_engine 与 test_framework 的 generator
+    config.generators do |g|
+      g.template_engine :slim
+      g.test_framework :rspec
+    end
   end
 end

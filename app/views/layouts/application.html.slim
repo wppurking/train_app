@@ -7,9 +7,8 @@ html
     = csrf_meta_tags
 
 body
-  .navbar
-    .navbar-inner
-      a.brand href='#' Title
+  / layout 中 render 其他片段需要指定 layouts, 否则到 views 目录下去了
+  = render 'layouts/header'
 
   .container
     = yield
