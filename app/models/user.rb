@@ -1,13 +1,14 @@
+# -*- encoding : utf-8 -*-
 # == Schema Information
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  username   :string(255)
-#  email      :string(255)
-#  password   :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :integer          not null, primary key
+#  name            :string(30)
+#  email           :string(255)
+#  password_digest :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class User < ActiveRecord::Base
@@ -22,11 +23,22 @@ class User < ActiveRecord::Base
   #  2. 添加用户的 authenticate 方法, 输入没有加密的密码, 其自动根据 password_digest 进行解密, 与密码比对
   has_secure_password
 
+  # 向 Model 注册回掉函数有主要有两种方式
+  # 1. 直接通过 before_save 注册一个 &block
+  # 2. 使用 symbol 注册回掉函数的方法名
+  before_save { |user| user.email = user.email.downcase }
+  before_save :create_remember_token
+
   validates :email, presence: true, format: {with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i}, uniqueness: {case_sensitive: false}
   validates :name, presence: true, length: {maximum: 30}
 
   # has_secure_password 文档中说,自动添加了 password, password_confirmation 但貌似是自动添加了对 password_digest 为空的判断而已...
-  validates :password, presence: true, confirmation: true
+  validates :password, presence: true, length: {minimum: 6}
   validates :password_confirmation, presence: true
+
+  private
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
+  end
 
 end

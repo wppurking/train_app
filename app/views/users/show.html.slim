@@ -1,0 +1,9 @@
+- if flash[:success]
+  .alert.alert-success
+    = flash[:success]
+
+.row-fluid
+  .span4
+    h1
+      = gravatar_for(@user)
+      = @user.name.camelize

@@ -11,3 +11,16 @@
  *= require_self
  *= require_tree .
  */
+.homepage{
+  margin-top:30px;
+  text-align:center;
+  h1{
+    padding-top:30px;
+    font-size:50px;
+  }
+  .btn{
+    margin-top:15px;
+    margin-bottom:30px;
+  }
+}
+

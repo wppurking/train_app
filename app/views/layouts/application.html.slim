@@ -12,3 +12,8 @@ body
 
   .container
     = yield
+
+  - if Rails.env.development?
+    .container
+      .row
+        =debug(params)

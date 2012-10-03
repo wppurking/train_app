@@ -1,0 +1,17 @@
+.row
+  h2#title.alert.alert-info
+    | 用户登陆
+
+.row
+  .span6.offset3
+    - if flash[:error]
+      .alert.alert-error
+        = flash[:error]
+
+
+    = form_for(:session, url: sessions_path) do |f|
+      = f.label :email
+      = f.text_field :email
+      = f.label :password
+      = f.password_field :password
+      = f.submit "Sign in", class: 'btn btn-large btn-primary'

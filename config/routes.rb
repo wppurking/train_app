@@ -1,4 +1,15 @@
+# -*- encoding : utf-8 -*-
 TrainApp::Application.routes.draw do
+  match 'help' => 'application#help'
+
+  match 'signup' => 'users#new'
+  match 'signin' => 'sessions#new'
+
+  resources :users
+
+  # 将用户登陆看做是创建 Session, 提供登陆页面(new), 登陆(create), 登出(destroy)
+  resources :sessions, only: [:new, :create, :destroy]
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
