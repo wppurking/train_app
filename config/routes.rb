@@ -4,6 +4,7 @@ TrainApp::Application.routes.draw do
 
   match 'signup' => 'users#new'
   match 'signin' => 'sessions#new'
+  match 'signout' => 'sessions#destroy'
 
   resources :users
 

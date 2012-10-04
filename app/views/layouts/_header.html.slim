@@ -7,5 +7,9 @@
           a href=root_path Home
         li
           a href=help_path Help
-        li
-          a href=signin_path Sign in
+        - if sign_in?
+          li
+            a href=user_path(current_user) Profile
+        - else
+          li
+            a href=signin_path Sign in
