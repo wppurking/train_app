@@ -36,6 +36,13 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: {minimum: 6}
   validates :password_confirmation, presence: true
 
+
+  # 修改密码
+  def change_password(options)
+    return false if not options.is_a?(Hash)
+    authenticate(options[:oldpassword]) && update_attributes(options.except(:oldpassword))
+  end
+
   private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64

@@ -4,9 +4,7 @@
 
 .row
   .span6.offset3
-    - if flash[:error]
-      .alert.alert-error
-        = flash[:error]
+    = render 'shared/alert_errors'
 
     = form_for(:session, url: sessions_path) do |f|
       = f.label :email

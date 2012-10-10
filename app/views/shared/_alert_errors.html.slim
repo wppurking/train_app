@@ -1,0 +1,4 @@
+- [:success, :error, :notice].each do |key|
+  - if flash[key]
+    .alert class='alert-#{key.to_s}'
+      = flash[key]

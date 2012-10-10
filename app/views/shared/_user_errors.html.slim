@@ -1,7 +1,6 @@
 -if @user.errors.any?
   #user_errors
     .alert.alert-error
-      = @user.errors
       = "表格中拥有 #{@user.errors.count} 个错误"
       ul
         - @user.errors.full_messages.each do |msg|

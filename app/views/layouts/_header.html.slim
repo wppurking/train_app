@@ -8,8 +8,17 @@
         li
           a href=help_path Help
         - if sign_in?
-          li
-            a href=user_path(current_user) Profile
+          li.dropdown
+            a.dropdown-toggle data-toggle='dropdown' href='#'
+              =current_user.name.camelize
+              b.caret
+            ul.dropdown-menu
+              li
+                a href=edit_user_path(current_user) Profile
+              li
+                a href=password_url Change Password
+              li
+                a href=signout_path Sign Out
         - else
           li
             a href=signin_path Sign in

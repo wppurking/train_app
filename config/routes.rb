@@ -6,6 +6,10 @@ TrainApp::Application.routes.draw do
   match 'signin' => 'sessions#new'
   match 'signout' => 'sessions#destroy'
 
+  # password 的修改
+  match 'password' => 'users#password', via: [:get]
+  match 'password' => 'users#change_password', via: [:post]
+
   resources :users
 
   # 将用户登陆看做是创建 Session, 提供登陆页面(new), 登陆(create), 登出(destroy)

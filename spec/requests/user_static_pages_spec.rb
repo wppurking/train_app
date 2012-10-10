@@ -4,10 +4,31 @@ require 'spec_helper'
 describe "User page" do
   subject { page }
 
+  before { @user = FactoryGirl.create(:user) }
+
   describe "un login" do
 
-    describe "signin page" do
-      before { visit signin_url }
+    describe "visit user edit page" do
+      before { visit edit_user_url(@user) }
+
+      it "should redirect_to sigin page" do
+        should have_selector("div.alert", text: "请先登陆")
+        should have_content("永久登陆")
+      end
+
+      it "should redirect_to user edit page" do
+        fill_in 'session_email', with: 'wppurking@gmail.com'
+        fill_in 'session_password', with: 'foobar'
+        click_button 'Sign in'
+
+        should have_content("Update your profile")
+        should have_selector("input.btn")
+      end
+
+    end
+
+    describe "signup page" do
+      before { visit signup_url }
 
       describe "password valid" do
         before do

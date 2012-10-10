@@ -1,5 +1,11 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
+  before_filter :require_login, only: [:edit, :update, :password, :change_password]
+
+
+  def show
+    @user = User.find(params[:id])
+  end
 
   def new
     @user = User.new
@@ -17,8 +23,37 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
+  def edit
     @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(params[:user])
+      flash[:success] = "修改成功"
+      sign_in(@user, !session.key?(:remember_token))
+      redirect_to @user
+    else
+      render 'edit'
+    end
+  end
+
+  def password
+    @user = current_user
+  end
+
+  def change_password
+    @user = current_user
+    if @user.change_password(params[:user])
+      # 验证通过
+      sign_in(@user, !session.key?(:remember_token))
+      flash[:success] = "密码修改成功"
+      redirect_to password_path
+    else
+      # 验证失败
+      flash.now[:error] = "修改密码失败" if not @user.errors.any?
+      render 'password'
+    end
   end
 
 end
