@@ -12,6 +12,11 @@ gem 'slim', '1.3.0'
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails', '2.1.3'
 
+# 分页
+gem 'kaminari'
+gem 'kaminari-bootstrap'
+
+
 group :production do
   gem 'mysql2'
   gem 'unicorn', '4.3.1'
@@ -32,6 +37,8 @@ group :development do
   gem 'thin', '1.4.1'
   gem 'mysql2'
   gem 'annotate', '2.5.0'
+  gem 'RedCloth'
+  gem 'faker', '1.0.1'
 end
 
 group :test do

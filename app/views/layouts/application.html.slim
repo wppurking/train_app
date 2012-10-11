@@ -1,7 +1,15 @@
 doctype html
 html
   head
-    title Train App
+    / 这个 yield 的理解弄了好久...
+    / 1. Rails Guides 中的 Understanding yield 一段
+    / 2. http://www.reddit.com/r/ruby/comments/kvjrw/ruby_newbie_i_dont_understand_yield/
+    / 3. http://www.cnitblog.com/kenlistian/archive/2008/03/16/40979.html
+    / 对于在 ruby 的方法中使用的, 可以理解为传递一个'闭包'的占位符, yield(xx) 的调用也就是传递给这个
+    / ruby 闭包的调用.
+    / 而在 Rails view 的 layout 中, 无参 yield 默认也只能产生 content, 而带参的 yield :param 则
+    / 可与 content_for/provide 结合使用, 将 页面中设置的参数, 带到 layout 中使用
+    title =title(yield(:title))
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
     = csrf_meta_tags

@@ -3,6 +3,10 @@ class UsersController < ApplicationController
   before_filter :require_login, only: [:edit, :update, :password, :change_password]
 
 
+  def index
+    @users = User.page(params[:page])
+  end
+
   def show
     @user = User.find(params[:id])
   end

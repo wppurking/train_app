@@ -1,0 +1,22 @@
+- provide(:title, 'Users Page')
+
+h1.center All Users
+
+
+.row.pagination-centered
+  = paginate @users
+
+.row
+  .span4
+    | 如果登陆了这里会变的
+
+  .span8
+    - @users.each do |user|
+      .user
+        = gravatar_for(user, 60)
+        = link_to user do
+          i.icon-link &nbsp;
+          = user.name
+
+.row.pagination-centered
+  = paginate @users
