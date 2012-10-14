@@ -39,6 +39,7 @@ group :development do
   gem 'annotate', '2.5.0'
   gem 'RedCloth'
   gem 'faker', '1.0.1'
+  gem 'hirb'
 end
 
 group :test do

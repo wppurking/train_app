@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
-  before_filter :require_login, only: [:edit, :update, :password, :change_password]
+  before_filter :require_login, only: [:edit, :update, :password, :change_password, :destroy]
+
+  # 用户只能修改自己
+  before_filter :correct_user, only: [:edit, :update, :password, :change_password]
 
 
   def index
@@ -42,6 +45,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    user = User.find(params[:id])
+    if user.destroy
+      flash[:success] = "用户 #{user.name} 删除成功"
+      redirect_to user
+    else
+      render 'index'
+    end
+  end
+
   def password
     @user = current_user
   end
@@ -58,6 +71,12 @@ class UsersController < ApplicationController
       flash.now[:error] = "修改密码失败" if not @user.errors.any?
       render 'password'
     end
+  end
+
+  private
+  def correct_user
+    user = User.find(params[:id])
+    redirect_to(root_path) unless current_user?(user)
   end
 
 end

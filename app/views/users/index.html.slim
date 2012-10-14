@@ -2,6 +2,7 @@
 
 h1.center All Users
 
+= render 'shared/user_errors'
 
 .row.pagination-centered
   = paginate @users
@@ -17,6 +18,9 @@ h1.center All Users
         = link_to user do
           i.icon-link &nbsp;
           = user.name
+        - if current_user.admin?
+          | &nbsp; | &nbsp;
+          = link_to 'delete', user, method: :delete, data: { confirm: 'You sure?' }
 
 .row.pagination-centered
   = paginate @users

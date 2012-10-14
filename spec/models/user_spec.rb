@@ -9,8 +9,11 @@
 #  password_digest :string(255)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  remember_token  :string(255)
+#  admin           :boolean
 #
 
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 describe User do
@@ -80,5 +83,17 @@ describe User do
         @un_save_user.errors.full_messages.include?(error).should == true
       end
     end
+  end
+
+  describe "user admin" do
+    let(:admin_user) { FactoryGirl.create(:admin) }
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "admin user should not be delete" do
+      admin_user.destroy
+      admin_user.errors.size.should == 1
+      admin_user.errors.full_messages.include?("只有非管理员可以被删除")
+    end
+
   end
 end

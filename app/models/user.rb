@@ -9,8 +9,11 @@
 #  password_digest :string(255)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  remember_token  :string(255)
+#  admin           :boolean
 #
 
+# -*- encoding : utf-8 -*-
 class User < ActiveRecord::Base
   # 这个是 rails 针对 mase-assignment 问题的白名单的解决办法
   # 将 password 与 password_confirmation 添加进入白名单, 是因为就算对这两个值进行了设置, 如果无法验证成功, 还是无法影响安全
@@ -29,6 +32,8 @@ class User < ActiveRecord::Base
   before_save { |user| user.email = user.email.downcase }
   before_save :create_remember_token
 
+  before_destroy :admin_check
+
   validates :email, presence: true, format: {with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i}, uniqueness: {case_sensitive: false}
   validates :name, presence: true, length: {maximum: 30}
 
@@ -46,6 +51,14 @@ class User < ActiveRecord::Base
   private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64
+  end
+
+  # 标记为管理员的用户不允许删除
+  # 需要阻止在 destroy 继续执行, 返回 false 即可.
+  # 同时可以将 erros 利用 add(:column, msg) 添加到 model.erros 中
+  def admin_check
+    errors.add(:admin, "只有非管理员可以被删除") if admin?
+    !admin?
   end
 
 end

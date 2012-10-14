@@ -13,7 +13,9 @@ namespace :db do
   # 利用 RubyMine 打开 :environment task, 原来这个 task 是在 railties gem 的 applicatioin.rb 文件中
   # 简单来说就是将 config/environments 中的第一个环境文件引入进来(?why first one)
   task populate: :environment do
-    User.create!(name: "wyatt", email: "example@railstutorial.org", password: "foobar", password_confirmation: "foobar")
+    admin = User.new(name: "wyatt", email: "example@railstutorial.org", password: "foobar", password_confirmation: "foobar")
+    admin.admin = true
+    admin.save
 
     # 创建很多 user
     130.times do |n|
