@@ -6,7 +6,10 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   def home
-    redirect_to current_user if sign_in?
+    if sign_in?
+      @post = current_user.posts.build
+      @user_posts = current_user.posts.page(params[:page]).per(10)
+    end
   end
 
   def help

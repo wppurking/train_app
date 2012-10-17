@@ -1,8 +1,26 @@
-.row
-  .well.homepage
-    h1 Welcome to the Sample App
-    h4.muted This is the page for the Ruby on Rails Tutorial sample application.
-    a.btn.btn-primary.btn-large href=signup_path Sign up now!
+- if sign_in?
+  .row
+    .span4
+      = render 'users/overview'
+      = render 'shared/model_errors', model: @post
+      = form_for(@post) do |f|
+        = f.text_area :content, placeholder: "Compose new post..."
+        = f.submit 'Post', class: 'btn btn-primary btn-large'
+    .span8
+      = render 'shared/alert_errors'
+      - @user_posts.each do |p|
+        dl
+          dt =p.content
+          dd =time_ago_in_words(p.created_at)
+        br
+      = paginate @user_posts
 
-.row
-  img src="/assets/rails.png"
+- else
+  .row
+    .well.homepage
+      h1 Welcome to the Sample App
+      h4.muted This is the page for the Ruby on Rails Tutorial sample application.
+      a.btn.btn-primary.btn-large href=signup_path Sign up now!
+
+  .row
+    img src="/assets/rails.png"

@@ -1,9 +1,8 @@
-- if flash[:success]
-  .alert.alert-success
-    = flash[:success]
+= render 'shared/alert_errors'
 
-.row-fluid
+.row
   .span4
-    h1
-      = gravatar_for(@user)
-      = @user.name.camelize
+    = render 'overview'
+
+  .span8
+    | hahah

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_filter :require_login, only: [:edit, :update, :password, :change_password, :destroy]
 
   # 用户只能修改自己
-  before_filter :correct_user, only: [:edit, :update, :password, :change_password]
+  before_filter :correct_user, only: [:edit, :update]
 
 
   def index

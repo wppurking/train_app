@@ -1,0 +1,7 @@
+-if model.errors.any?
+  #user_errors
+    .alert.alert-error
+      = "表格中拥有 #{model.errors.count} 个错误"
+      ul
+        - model.errors.full_messages.each do |msg|
+          li = msg

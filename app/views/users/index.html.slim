@@ -2,14 +2,14 @@
 
 h1.center All Users
 
-= render 'shared/user_errors'
+= render 'shared/alert_errors'
 
 .row.pagination-centered
   = paginate @users
 
 .row
   .span4
-    | 如果登陆了这里会变的
+    = render 'overview'
 
   .span8
     - @users.each do |user|

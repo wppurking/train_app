@@ -35,6 +35,7 @@ end
 
 group :development do
   gem 'thin', '1.4.1'
+  #gem 'unicorn', '4.3.1'
   gem 'mysql2'
   gem 'annotate', '2.5.0'
   gem 'RedCloth'
