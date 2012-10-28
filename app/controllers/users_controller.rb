@@ -76,7 +76,10 @@ class UsersController < ApplicationController
   private
   def correct_user
     user = User.find(params[:id])
-    redirect_to(root_path) unless current_user?(user)
+    unless current_user?(user)
+      flash[:error] = "不允许修改其他人的信息"
+      redirect_to(root_path)
+    end
   end
 
 end
