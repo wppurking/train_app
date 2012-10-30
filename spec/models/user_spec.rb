@@ -37,6 +37,10 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
 
+  it { should respond_to(:followers) }
+  it { should respond_to(:followeds) }
+  it { should respond_to(:relationships) }
+
   describe "user email validation" do
     it "should be invalid" do
       emails = %w[user@foo,com user_aa_foo.org foo@foo+bar.cm]
@@ -94,6 +98,38 @@ describe User do
       admin_user.errors.size.should == 1
       admin_user.errors.full_messages.include?("只有非管理员可以被删除")
     end
+  end
 
+  describe "user followed/follower users" do
+    before do
+      @user = FactoryGirl.create(:user)
+      @other_user = FactoryGirl.create(:user)
+      @user.follow(@other_user)
+    end
+
+    it "should have one followed user" do
+      @user.followeds.size.should == 1
+      @user.followeds[0].id.should == @other_user.id
+    end
+
+    it "should have one follower user" do
+      @other_user.followers.size.should == 1
+      @other_user.followers[0].id.should == @user.id
+    end
+
+    describe "user unfollow other user" do
+      before do
+        puts "Before......."
+        @user.unfollow(@other_user)
+      end
+
+      it "should be no followeds" do
+        @user.followeds.size.should == 0
+      end
+
+      it "should be no followers" do
+        @other_user.followers.size.should == 0
+      end
+    end
   end
 end

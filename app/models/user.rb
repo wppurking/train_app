@@ -43,6 +43,37 @@ class User < ActiveRecord::Base
 
   has_many :posts
 
+  # 当前用户跟踪了很多人.
+  # 将用户的跟踪分为 "跟踪者(follower) 与被跟踪者(followed)", 这里需要的关系是 N-N ,所以使用
+  # has_many :through 来完成.  由于 follower 与 followed 的关系记录在 relationship 表中,
+  # 所以需要通过 through: :relationship 来完成中间表的关联.
+  # 默认情况下, 如果指定 foreign_key, 那么 User has_many relationships, 那么:
+  # 1. 外键存储在 "多" 的一端
+  # 2. 外键的名字为 user_id, 代表 relationships 通过 user_id 找到其关联的那一个 user
+  # 由于现在 relationships 表中没有 user_id, 只有 follower_id 与 followed_id, 用来代表
+  # 两个 user 之间的跟踪关系, 跟踪者的 id 与被跟踪者的 id, 并且这里需要寻找的是当前用户跟踪的人,
+  # 也就是说, 在 relationships 表中, 当前用户是处于跟踪者的位置, 所以在 relationships 表中,
+  # 当前用户寻找他的跟踪的人的时候, 是当前用户的 id 作为跟踪者的时候, 也就是 follower_id = user.id 的时候
+  has_many :relationships, foreign_key: "follower_id"
+  # 如果没有设置 source, 那么下面的语句则在通过 u.followeds 跟踪的用户的时候, 会
+  # 到 relationships 表中通过与 relationships.followed/followeds 建立关系
+  has_many :followeds, through: :relationships
+  #has_many :followed_users, through: :relationships, source: "followed"
+
+  has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship"
+  has_many :followers, through: :reverse_relationships
+
+  def follow(user)
+    relationships.create(followed_id: user.id)
+  end
+
+  def unfollow(user)
+    # TODO 非常奇怪, 在 rails c 中, 可以使用 user.relationships.where("followed_id=?", 3)
+    # 这样执行: SELECT `relationships`.* FROM `relationships` WHERE `relationships`.`follower_id` = 1 AND (followed_id=3)
+    # 获取到 relationships, 可在 rspc 中则只有使用 dynamic finder 才有效果?
+    #relationships.where("followed_id=?", user.id).destroy
+    relationships.find_by_followed_id(user.id).destroy
+  end
 
   # 修改密码
   def change_password(options)
