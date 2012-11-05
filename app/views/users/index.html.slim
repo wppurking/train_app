@@ -9,7 +9,7 @@ h1.center All Users
 
 .row
   .span4
-    = render 'overview'
+    = render partial: 'overview', locals: {user: current_user}
 
   .span8
     - @users.each do |user|

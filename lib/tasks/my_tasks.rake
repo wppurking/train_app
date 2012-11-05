@@ -27,6 +27,15 @@ namespace :db do
     end
   end
 
+  task posts: :environment do
+    # 通过 find_each (默认每批次 1000) 来代替 all
+    User.find_each do |user|
+      20.times do
+        user.posts.build(content: Faker::Lorem.sentence).save!
+      end
+    end
+  end
+
 end
 
 desc "测试 rake 不需要的 rails environment 的 task"

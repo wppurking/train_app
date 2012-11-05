@@ -67,12 +67,27 @@ class User < ActiveRecord::Base
     relationships.create(followed_id: user.id)
   end
 
+  # 是否跟了此人
+  def following?(user)
+    relationships.find_by_followed_id(user.id) != nil
+  end
+
   def unfollow(user)
     # TODO 非常奇怪, 在 rails c 中, 可以使用 user.relationships.where("followed_id=?", 3)
     # 这样执行: SELECT `relationships`.* FROM `relationships` WHERE `relationships`.`follower_id` = 1 AND (followed_id=3)
     # 获取到 relationships, 可在 rspc 中则只有使用 dynamic finder 才有效果?
     #relationships.where("followed_id=?", user.id).destroy
     relationships.find_by_followed_id(user.id).destroy
+
+    # 区别 where 与动态 find_by 方法
+
+    # > u.relationships.where('followed_id=?', 3)
+    # Relationship Load (0.4ms)  SELECT `relationships`.* FROM `relationships` WHERE `relationships`.`follower_id` = 1
+    # AND (followed_id=3)
+
+    # > u.relationships.find_by_followed_id(3)
+    #  Relationship Load (0.5ms)  SELECT `relationships`.* FROM `relationships` WHERE `relationships`.`follower_id` = 1
+    # AND `relationships`.`followed_id` = 3 LIMIT 1
   end
 
   # 修改密码

@@ -2,7 +2,12 @@
 
 .row
   .span4
-    = render 'overview'
+    = render partial: 'overview', locals: { user: @user }
 
   .span8
-    | hahah
+    - @posts.each do |p|
+      dl
+        dt =p.content
+        dd =time_ago_in_words(p.created_at)
+      br
+    = paginate @posts

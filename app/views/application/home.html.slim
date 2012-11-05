@@ -1,7 +1,7 @@
 - if sign_in?
   .row
     .span4
-      = render 'users/overview'
+      = render partial: 'users/overview', locals: {user: current_user}
       = render 'shared/model_errors', model: @post
       = form_for(@post) do |f|
         = f.text_area :content, placeholder: "Compose new post..."

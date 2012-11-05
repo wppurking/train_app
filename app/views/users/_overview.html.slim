@@ -1,3 +1,11 @@
 h1
-  = gravatar_for(current_user)
-  = current_user.name.camelize
+  = gravatar_for(user)
+  = user.name.camelize
+
+#follow_action
+  / ajax, follow / unfollow
+  - if current_user.following?(user)
+    = render 'relationships/unfollow'
+  - else
+    = render 'relationships/follow'
+

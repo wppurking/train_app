@@ -10,8 +10,13 @@ TrainApp::Application.routes.draw do
   match 'password' => 'users#password', via: [:get]
   match 'password' => 'users#change_password', via: [:post]
 
+
   resources :users
   resources :posts, only: [:create]
+
+  # follow/unfollow
+  match 'follow' => 'relationships#create', via: [:post]
+  match 'unfollow' => 'relationships#destory', via: [:delete]
 
   # 将用户登陆看做是创建 Session, 提供登陆页面(new), 登陆(create), 登出(destroy)
   resources :sessions, only: [:new, :create, :destroy]
