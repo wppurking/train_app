@@ -60,6 +60,7 @@ class User < ActiveRecord::Base
   has_many :followeds, through: :relationships
   #has_many :followed_users, through: :relationships, source: "followed"
 
+  # 当前用户被哪些用户跟踪
   has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship"
   has_many :followers, through: :reverse_relationships
 
@@ -70,6 +71,11 @@ class User < ActiveRecord::Base
   # 是否跟了此人
   def following?(user)
     relationships.find_by_followed_id(user.id) != nil
+  end
+
+  # 返回自己与其他用户最新发布的 posts
+  def feeds
+    Post.where("user_id=? or user_id IN (?)", id, followed_ids)
   end
 
   def unfollow(user)

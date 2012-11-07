@@ -1,0 +1,8 @@
+h1
+  = gravatar_for(current_user)
+  = current_user.name.camelize
+.row-fluid
+  .span6
+    a href=followeds_path Followed #{current_user.followeds.count} Users
+  .span6
+    a href=followers_path Have #{current_user.followers.count} Followers

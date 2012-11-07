@@ -1,18 +1,14 @@
 - if sign_in?
   .row
     .span4
-      = render partial: 'users/overview', locals: {user: current_user}
+      = render 'users/state'
       = render 'shared/model_errors', model: @post
       = form_for(@post) do |f|
         = f.text_area :content, placeholder: "Compose new post..."
         = f.submit 'Post', class: 'btn btn-primary btn-large'
     .span8
       = render 'shared/alert_errors'
-      - @user_posts.each do |p|
-        dl
-          dt =p.content
-          dd =time_ago_in_words(p.created_at)
-        br
+      = render @user_posts
       = paginate @user_posts
 
 - else

@@ -1,18 +1,15 @@
-- provide(:title, 'Users Page')
+- provide(:title, 'Follower Users')
 
 h1.center All Users
 
 = render 'shared/alert_errors'
-
-.row.pagination-centered
-  = paginate @users
 
 .row
   .span4
     = render 'users/state'
 
   .span8
-    = render 'user_list'
+    = render 'users/user_list'
 
 .row.pagination-centered
   = paginate @users

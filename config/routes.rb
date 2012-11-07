@@ -17,6 +17,8 @@ TrainApp::Application.routes.draw do
   # follow/unfollow
   match 'follow' => 'relationships#create', via: [:post]
   match 'unfollow' => 'relationships#destory', via: [:delete]
+  match 'followers' => 'relationships#followers', via: [:get]
+  match 'followeds' => 'relationships#followeds', via: [:get]
 
   # 将用户登陆看做是创建 Session, 提供登陆页面(new), 登陆(create), 登出(destroy)
   resources :sessions, only: [:new, :create, :destroy]

@@ -23,4 +23,12 @@ class RelationshipsController < ApplicationController
     end
   end
 
+  def followers
+    @users = current_user.followers.page(params[:page])
+  end
+
+  def followeds
+    @users = current_user.followeds.page(params[:page]).per(1)
+  end
+
 end

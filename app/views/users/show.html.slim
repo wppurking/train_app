@@ -5,9 +5,5 @@
     = render partial: 'overview', locals: { user: @user }
 
   .span8
-    - @posts.each do |p|
-      dl
-        dt =p.content
-        dd =time_ago_in_words(p.created_at)
-      br
+    = render @posts
     = paginate @posts

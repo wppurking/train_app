@@ -1,0 +1,9 @@
+- @users.each do |user|
+  .user
+    = gravatar_for(user, 60)
+    = link_to user do
+      i.icon-link &nbsp;
+      = user.name
+    - if current_user.admin?
+      | &nbsp; | &nbsp;
+      = link_to 'delete', user, method: :delete, data: { confirm: 'You sure?' }

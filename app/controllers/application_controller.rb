@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def home
     if sign_in?
       @post = current_user.posts.build
-      @user_posts = current_user.posts.page(params[:page]).per(10)
+      @user_posts = current_user.feeds.page(params[:page]).per(10)
     end
   end
 
